@@ -1,0 +1,185 @@
+UC-1:- 
+Ability to create address book services database:
+
+mysql> create database AddressBook_services;
+Query OK, 1 row affected (0.21 sec)
+
+mysql> use AddressBook_services:
+ERROR 1049 (42000): Unknown database 'addressbook_services:'
+mysql> use AddressBook_services;
+Database changed
+mysql> show databases;
++----------------------+
+| Database             |
++----------------------+
+| addressbook_services |
+| employee             |
+| information_schema   |
+| kundan               |
+| kundanschool         |
+| mysql                |
+| payroll_service      |
+| performance_schema   |
+| sakila               |
+| sys                  |
+| world                |
++----------------------+
+11 rows in set (0.00 sec)
+
+UC-2:-
+Ability to create a Address Book Table with first and last names, address, city,
+state, zip, phone number and email as its attributes:
+
+mysql> Create table Address_Book (FirstName varchar(55),LastName varchar(55),Address varchar(70),city varchar(55),state varchar(55),Zip int,phone_number int,email varchar(55));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> describe Address_book;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| FirstName    | varchar(55) | YES  |     | NULL    |       |
+| LastName     | varchar(55) | YES  |     | NULL    |       |
+| Address      | varchar(70) | YES  |     | NULL    |       |
+| city         | varchar(55) | YES  |     | NULL    |       |
+| state        | varchar(55) | YES  |     | NULL    |       |
+| Zip          | int         | YES  |     | NULL    |       |
+| phone_number | int         | YES  |     | NULL    |       |
+| email        | varchar(55) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+UC-3:- 
+Ability to insert new Contacts to Address Book:
+
+mysql> Insert into Address_Book(FirstName,LastName,Address,city,state,zip,phone_number,email) values('kundan','kumar','Ambakala','sheohar','bihar',843334,98677226,'kundanchauhan1997@gmail.com'), ('rahul','roy','banka','bhagalpur','patna',12345,98245677,'rahul@kumar'),('shubham','kumar','bangaluru','chapra','jharkhand',456723,98563427,'shubham@singh');
+Query OK, 3 rows affected (0.02 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from Address_book;
++-----------+----------+-----------+-----------+-----------+--------+--------------+-----------------------------+
+| FirstName | LastName | Address   | city      | state     | Zip    | phone_number | email                       |
++-----------+----------+-----------+-----------+-----------+--------+--------------+-----------------------------+
+| kundan    | kumar    | Ambakala  | sheohar   | bihar     | 843334 |     98677226 | kundanchauhan1997@gmail.com |
+| rahul     | roy      | banka     | bhagalpur | patna     |  12345 |     98245677 | rahul@kumar                 |
+| shubham   | kumar    | bangaluru | chapra    | jharkhand | 456723 |     98563427 | shubham@singh               |
++-----------+----------+-----------+-----------+-----------+--------+--------------+-----------------------------+
+3 rows in set (0.00 sec)
+
+UC-4:-
+Ability to edit existing contact person using their name:
+
+mysql> update address_book set state = 'Westbengal' Where FirstName = 'rahul';
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Address_book;
++-----------+----------+-----------+-----------+------------+--------+--------------+-----------------------------+
+| FirstName | LastName | Address   | city      | state      | Zip    | phone_number | email                       |
++-----------+----------+-----------+-----------+------------+--------+--------------+-----------------------------+
+| kundan    | kumar    | Ambakala  | sheohar   | bihar      | 843334 |     98677226 | kundanchauhan1997@gmail.com |
+| rahul     | roy      | banka     | bhagalpur | Westbengal |  12345 |     98245677 | rahul@kumar                 |
+| shubham   | kumar    | bangaluru | chapra    | jharkhand  | 456723 |     98563427 | shubham@singh               |
++-----------+----------+-----------+-----------+------------+--------+--------------+-----------------------------+
+3 rows in set (0.00 sec)
+
+UC-5:-
+Ability to delete a person using person's name:
+
+mysql> Delete From Address_book Where FirstName = 'rahul';
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from Address_book;
++-----------+----------+-----------+---------+-----------+--------+--------------+-----------------------------+
+| FirstName | LastName | Address   | city    | state     | Zip    | phone_number | email                       |
++-----------+----------+-----------+---------+-----------+--------+--------------+-----------------------------+
+| kundan    | kumar    | Ambakala  | sheohar | bihar     | 843334 |     98677226 | kundanchauhan1997@gmail.com |
+| shubham   | kumar    | bangaluru | chapra  | jharkhand | 456723 |     98563427 | shubham@singh               |
++-----------+----------+-----------+---------+-----------+--------+--------------+-----------------------------+
+2 rows in set (0.00 sec)
+
+UC-6:-
+Ability to Retrieve Person belonging to a City or State from the Address Book:
+
+mysql> select * from Address_book Where city = 'sheohar';
++-----------+----------+----------+---------+-------+--------+--------------+-----------------------------+
+| FirstName | LastName | Address  | city    | state | Zip    | phone_number | email                       |
++-----------+----------+----------+---------+-------+--------+--------------+-----------------------------+
+| kundan    | kumar    | Ambakala | sheohar | bihar | 843334 |     98677226 | kundanchauhan1997@gmail.com |
++-----------+----------+----------+---------+-------+--------+--------------+-----------------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from Address_book Where state = 'jharkhand';
++-----------+----------+-----------+--------+-----------+--------+--------------+---------------+
+| FirstName | LastName | Address   | city   | state     | Zip    | phone_number | email         |
++-----------+----------+-----------+--------+-----------+--------+--------------+---------------+
+| shubham   | kumar    | bangaluru | chapra | jharkhand | 456723 |     98563427 | shubham@singh |
++-----------+----------+-----------+--------+-----------+--------+--------------+---------------+
+1 row in set (0.00 sec)
+
+UC-7:-
+mysql> select count(*) from address_book Where city = 'sheohar';
++----------+
+| count(*) |
++----------+
+|        1 |
++----------+
+1 row in set (0.02 sec)
+
+mysql> select city,state from Address_book;
++---------+-----------+
+| city    | state     |
++---------+-----------+
+| sheohar | bihar     |
+| chapra  | jharkhand |
++---------+-----------+
+2 rows in set (0.00 sec)
+
+UC-8:-
+Ability to retrieve entries sorted alphabetically by Person’s name for a given city:
+
+mysql> select * From Address_Book Where city = 'chapra' order by FirstName ASC;
++-----------+----------+-----------+--------+-----------+--------+--------------+---------------+
+| FirstName | LastName | Address   | city   | state     | Zip    | phone_number | email         |
++-----------+----------+-----------+--------+-----------+--------+--------------+---------------+
+| shubham   | kumar    | bangaluru | chapra | jharkhand | 456723 |     98563427 | shubham@singh |
++-----------+----------+-----------+--------+-----------+--------+--------------+---------------+
+1 row in set (0.02 sec)
+
+UC-9:-
+Ability to identify each Address Book with name and
+Type. - Here the type could Family, Friends, Profession, etc
+- Alter Address Book to add name type:
+
+mysql> alter table Address_book add Type varchar(55);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> update address_book set type = 'friends' where FirstName = 'shubham';
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update address_book set type = 'friends' where FirstName = 'kundan';
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from address_book;
++-----------+----------+-----------+---------+-----------+--------+--------------+-----------------------------+---------+
+| FirstName | LastName | Address   | city    | state     | Zip    | phone_number | email                       | Type    |
++-----------+----------+-----------+---------+-----------+--------+--------------+-----------------------------+---------+
+| kundan    | kumar    | Ambakala  | sheohar | bihar     | 843334 |     98677226 | kundanchauhan1997@gmail.com | friends |
+| shubham   | kumar    | bangaluru | chapra  | jharkhand | 456723 |     98563427 | shubham@singh               | friends |
++-----------+----------+-----------+---------+-----------+--------+--------------+-----------------------------+---------+
+2 rows in set (0.00 sec)
+
+UC-10:-
+ Ability to get number of contact persons i.e. count by type:
+
+mysql> select count(*) from address_book where type = 'friends';
++----------+
+| count(*) |
++----------+
+|        2 |
++----------+
+1 row in set (0.00 sec)
+
+
